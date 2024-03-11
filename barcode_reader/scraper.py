@@ -1,29 +1,29 @@
 import requests
 import pandas as pd
+from MySql_dumb import *
 
 res = []
 url = "https://online.auchan.hu/api/v2/cache/products"
-credentials = {
-    'usarname':
-}
-for x in range(2,110):
-    querystring = {"page": f"{x}","itemsPerPage":"12","categoryId":"6537","cacheSegmentationCode":"TB_LP0","hl":"hu"}
+for x in range(1,14):
+    querystring = {"page": f"{x}","itemsPerPage":"12","categoryId":"5645","cacheSegmentationCode":"TB_LP0","hl":"hu"}
 
     payload = ""
     headers = {
         "authority": "online.auchan.hu",
         "accept": "application/json",
         "accept-language": "hu",
-        "authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI4cG1XclQzWmxWMUFJbXdiMUhWYWE5T1BWSzkzcjhIcyIsImp0aSI6ImRlYTQyZGQyNGQ0NDVkYTM0Y2IzMzM2ZDk5YTdlNzg2Y2FlNzU3NDdhODljMDI2YWM5YmU1ZmQ0OGFkNWVlM2NmZDJmOGRlNWYzNzhlM2ExIiwiaWF0IjoxNzA3NTA0OTUyLjY2MjcyOSwibmJmIjoxNzA3NTA0OTUyLjY2MjczNSwiZXhwIjoxNzA3NTkxMzUyLjYzOTI2LCJzdWIiOiJhbm9uX2UwOWE0N2RkLTIwZWUtNGU3Yy1iZTUxLTQ1NTJlMmM4NWU1NCIsInNjb3BlcyI6W119.UsCkiOjhWoN7cxK8on3NE2xwv2mBhbF6eb2-PNUc_JcXQDcnCgUDTI8__jjZV0O83aI_GxIekk8yiJCPzpQg6ggF3hlDqrwL2AOaI9yHqADkdEG4ZW_dNTUs7HfixSOymSuWx8Gztqf_bhSHsqGXUw21BrzEQgq6sbMw-Rres_zhjTNtjZ33liMmtfLHvkvJcV-GsACQpbKTl2kROgY4Uz9YPfVQSPsV91zVyMcx9Qv2GA3ovmvwpK3i3QqrZDSW_Ys5-Nl6qk0nEI5N-WRtMkjsz2XB3VVNooMKnlNq6ltRWWHgwJUep0mDcpO3IeGTJ-PYmDwJHPEFkmxip98LnQ",
-        "cookie": "token_type=Bearer; userIsLoggedIn=false; access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI4cG1XclQzWmxWMUFJbXdiMUhWYWE5T1BWSzkzcjhIcyIsImp0aSI6ImRlYTQyZGQyNGQ0NDVkYTM0Y2IzMzM2ZDk5YTdlNzg2Y2FlNzU3NDdhODljMDI2YWM5YmU1ZmQ0OGFkNWVlM2NmZDJmOGRlNWYzNzhlM2ExIiwiaWF0IjoxNzA3NTA0OTUyLjY2MjcyOSwibmJmIjoxNzA3NTA0OTUyLjY2MjczNSwiZXhwIjoxNzA3NTkxMzUyLjYzOTI2LCJzdWIiOiJhbm9uX2UwOWE0N2RkLTIwZWUtNGU3Yy1iZTUxLTQ1NTJlMmM4NWU1NCIsInNjb3BlcyI6W119.UsCkiOjhWoN7cxK8on3NE2xwv2mBhbF6eb2-PNUc_JcXQDcnCgUDTI8__jjZV0O83aI_GxIekk8yiJCPzpQg6ggF3hlDqrwL2AOaI9yHqADkdEG4ZW_dNTUs7HfixSOymSuWx8Gztqf_bhSHsqGXUw21BrzEQgq6sbMw-Rres_zhjTNtjZ33liMmtfLHvkvJcV-GsACQpbKTl2kROgY4Uz9YPfVQSPsV91zVyMcx9Qv2GA3ovmvwpK3i3QqrZDSW_Ys5-Nl6qk0nEI5N-WRtMkjsz2XB3VVNooMKnlNq6ltRWWHgwJUep0mDcpO3IeGTJ-PYmDwJHPEFkmxip98LnQ; refresh_token=def50200aa81ff0aeea6a788cb2157bba19fbb53c913469545155ea9ca5a15587f8857be801d78967552629e88e5152ce390d84871d449255b587f86caa3691a960e9ba3a84d070b6a4b901e5ffabf4da2aab0bc8861c42a77950e1e1738e415de7448730617fe20b01e87ed7b327dd684d532fffa845691e98bf597a0df65dec0781ea61eb6b965fe8235476adb0326f9bab9e7b15e4f99f0e00be97c34ac92c739e57eb4cea481fd3cb2baa80ecfda9c28063d3596b463136676f30045685e7841502c6401cd777895974cf1099b6c45f5118a294694d1dbe306e505857600c8928c521f44f67a15e3c12f1a429d396c2367a02145313fe8c1c5a297a37083847ee8996e7a81ca9a13bdf39e783776470b1fd3be45b63e23018f7059c78d5bcf1d6be9f66b8cc47166220a74cb62a99102b42fb58d0149024371c2c9c2332a748438afe27c743ca4bdf91310e71d7cbd18e0f65371b137e3d401efccd66a29233cad2a403ab5296a38ece78b298045fd1761d17e8e6e24afb1bbe82c0eaca52eeb48625a8873c18b9d7f9f33fa679422b2acfbdfc3c78612a791b6fa8f2a6d60be986098804ff052c1; isWebpFormatSupportedAlgo0=true; _omappvp=m35L59DqJX3LpAjG1ZB7nTnUdoJjkaYeZb93cb3imRiXj5bnBHUudHjbTHUZ7ZXsrBJMjvECalvOTlasOjaSoFMKh6AcFMg1; _omappvs=1707504954735; scarab.visitor=^%^22E438A1C96DF60B7^%^22; _ga=GA1.2.1374307908.1707504955; _gid=GA1.2.1942556520.1707504955; omSeen-u4iylem6ln5pv81bfbd0=1707504956443; OptanonAlertBoxClosed=2024-02-09T18:55:57.261Z; _gcl_au=1.1.1849657510.1707504957; OptanonConsent=isGpcEnabled=0&datestamp=Fri+Feb+09+2024+19^%^3A55^%^3A57+GMT^%^2B0100+(k^%^C3^%^B6z^%^C3^%^A9p-eur^%^C3^%^B3pai+t^%^C3^%^A9li+id^%^C5^%^91)&version=6.35.0&isIABGlobal=false&hosts=&consentId=28f0626f-1f79-443e-bb40-1447b016daab&interactionCount=1&landingPath=NotLandingPage&groups=C0003^%^3A1^%^2CC0004^%^3A1^%^2CC0002^%^3A1^%^2CC0001^%^3A1; __rtbh.lid=^%^7B^%^22eventType^%^22^%^3A^%^22lid^%^22^%^2C^%^22id^%^22^%^3A^%^22yuMA8RegI4zhpZpU9LLu^%^22^%^7D; _hjSessionUser_606837=eyJpZCI6IjhkMDliMGI5LTdhOGEtNTE3ZC05M2Q0LWQ0ODM4ZDZkZDc4NCIsImNyZWF0ZWQiOjE3MDc1MDQ5NTc0MzUsImV4aXN0aW5nIjpmYWxzZX0=; _hjSession_606837=eyJpZCI6IjU0MGVlZmJjLTgxMDEtNDZjMS1iMWY3LWUwZDY2YjdhZjc4OCIsImMiOjE3MDc1MDQ5NTc0MzcsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=; _fbp=fb.1.1707504957452.1103446166; tfpsi=2919d951-cd45-4499-a5f1-b8a410dbeae8; _gac_UA-9971642-1=1.1707504975.CjwKCAiAt5euBhB9EiwAdkXWO_9-dhuIztxVyBnS9b7JpTECCE8veEWrYH4lmGZgJMuKk9XG8v1hbxoCq3IQAvD_BwE; _ga_XTT3C4HH22=GS1.2.1707504955.1.1.1707504975.40.0.0; gaHitCounter=5; __rtbh.uid=^%^7B^%^22eventType^%^22^%^3A^%^22uid^%^22^%^2C^%^22id^%^22^%^3A^%^22^%^22^%^7D; om-u4iylem6ln5pv81bfbd0=1707504977774",
-        "referer": "https://online.auchan.hu/shop/friss-elelmiszer/tejtermek-tojas-sajt/tejek-tejitalok-novenyi-italok.c-6537",
-        "sec-ch-ua": "^\^Not_A",
+        "authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI4cG1XclQzWmxWMUFJbXdiMUhWYWE5T1BWSzkzcjhIcyIsImp0aSI6IjNhYTViYzVkYjI2M2M0Yzk1MzhjODNmZWRhOGI1MjVlZWZjNTE0MDllNzJlZjY4OWJmM2I4NDA3MDczNzYxZDY5YTgxMjQwNTM2MzgwMmM1IiwiaWF0IjoxNzEwMTc1MjM2LjY1OTQ2MSwibmJmIjoxNzEwMTc1MjM2LjY1OTQ2NiwiZXhwIjoxNzEwMjYxNjM2LjYzNTEzOSwic3ViIjoiYW5vbl84OTA4NjRlMS04ZmVjLTQ0YzktODU2NC04YTg3MTllYmQ1ZGUiLCJzY29wZXMiOltdfQ.Y-E-ozXwbzTlE5ybAkxA83iKnLkp0wMMgcARt7k0MU2tKCxXSwkDrFhpTgx-uZ4tMDnDeGoWucKaWpNs68fmDXsoadMX1xL57rf0asWikYp5QclR5zJwSk5VKYH_tu-pL7JvJM_cOkuuctJkmPI5_CTNcSjhtnkth6GkKs4YzggZ88_Ywrs1IJClJKL1it2p1VDEsyC_IWDAm7W7Gha--mNACl2LkcfO_N5FIv3i9NVWhMky7oH-t96A4i8oJRcVCa17CnxPZpbsmyQbCh0SmY9h3KQDfaCCQQlYpi2EjazVuiRaB7mgexL5XBh_F7DfAY3zHOWw9tEj-VHDzUyVog",
+        "cache-control": "no-cache",
+        "^cookie": "_omappvp=kPEGKSSbBBJkWJ6VN5ek9rF9E5Jp13fLjQ4PwEdhPsx2bX2pqsNRr68Hr5YTxDJ23FM49H81H6LQEj4CNrdNjagjQF3Az8tL; omSeen-u4iylem6ln5pv81bfbd0=1708094206171; _gcl_au=1.1.1336614653.1708094206; __rtbh.lid=^%^7B^%^22eventType^%^22^%^3A^%^22lid^%^22^%^2C^%^22id^%^22^%^3A^%^22yGOHQHeHvdjZsXJPEUP8^%^22^%^7D; _fbp=fb.1.1708094206350.348490094; _hjSessionUser_606837=eyJpZCI6ImI2ZGNjMzNmLWEyOWYtNTk5MC04N2Y5LWM1MzRjZGY2YmNiZiIsImNyZWF0ZWQiOjE3MDgwOTQyMDYzMjcsImV4aXN0aW5nIjp0cnVlfQ==; OptanonAlertBoxClosed=2024-02-16T16:46:12.490Z; tab-uid_auchanecomm=8a67e872-da6e-4fba-94f7-9ffcdc6f08f0; OptanonAlertBoxClosed=2024-02-20T11:26:50.128Z; OptanonConsent=isGpcEnabled=0&datestamp=Tue+Feb+20+2024+12^%^3A26^%^3A50+GMT^%^2B0100+(Central+European+Standard+Time)&version=6.38.0&isIABGlobal=false&hosts=&consentId=4638ca5a-b94e-457d-9a0d-da3dc729763c&interactionCount=1&landingPath=NotLandingPage&groups=C0003^%^3A1^%^2CC0004^%^3A1^%^2CC0002^%^3A1^%^2CC0001^%^3A1; _ga=GA1.1.925138390.1708094205; token_type=Bearer; access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI4cG1XclQzWmxWMUFJbXdiMUhWYWE5T1BWSzkzcjhIcyIsImp0aSI6IjNhYTViYzVkYjI2M2M0Yzk1MzhjODNmZWRhOGI1MjVlZWZjNTE0MDllNzJlZjY4OWJmM2I4NDA3MDczNzYxZDY5YTgxMjQwNTM2MzgwMmM1IiwiaWF0IjoxNzEwMTc1MjM2LjY1OTQ2MSwibmJmIjoxNzEwMTc1MjM2LjY1OTQ2NiwiZXhwIjoxNzEwMjYxNjM2LjYzNTEzOSwic3ViIjoiYW5vbl84OTA4NjRlMS04ZmVjLTQ0YzktODU2NC04YTg3MTllYmQ1ZGUiLCJzY29wZXMiOltdfQ.Y-E-ozXwbzTlE5ybAkxA83iKnLkp0wMMgcARt7k0MU2tKCxXSwkDrFhpTgx-uZ4tMDnDeGoWucKaWpNs68fmDXsoadMX1xL57rf0asWikYp5QclR5zJwSk5VKYH_tu-pL7JvJM_cOkuuctJkmPI5_CTNcSjhtnkth6GkKs4YzggZ88_Ywrs1IJClJKL1it2p1VDEsyC_IWDAm7W7Gha--mNACl2LkcfO_N5FIv3i9NVWhMky7oH-t96A4i8oJRcVCa17CnxPZpbsmyQbCh0SmY9h3KQDfaCCQQlYpi2EjazVuiRaB7mgexL5XBh_F7DfAY3zHOWw9tEj-VHDzUyVog; refresh_token=def5020070ef8b6e58f01738111d933e3b65ca0d437a6b348a9cc8689f2186dfba7decfecb6155c665d74629727ef002386774da0566fe02cd942016f6fa8a3c8641325fcf7aea19a15e91dedc6dc60525c6e2ab7a3203c8a7cb45f1b8d5e34bc99f322adb5fec071a01a9c3a526b7b202625cd6b6a9ce5bc15d31f0fd8f24fea0eaf984aac39814c149831b23f64079c25e0ff6589386ccead0b2b5be0e38fd2a77b0c01ffe153b8aa308ed48af0bc221069012d831f59d2c0239281b9180a60c62f0c8fc58dae9f4e5b2ea9d0d71726f29a320ff1988013c50387004559fdceadd46c1c59be2c1b374f1eb596cf15290878f5fd1554345824ddb3db3236faac9825e35f495ce2e416a55b69214ad096e101191d787319a86fe97d5457b00acc024e63a3584478bb8578468829d32a4cf2d41d9ca3ba3e68bdd2a6b1fab879e16b941351291378de764a209b1c9a433f39a7b7579fb28f5dba6c86da005dbc1af732bd48f5acf99146359eab120701f2d95e2f248f1c72df542cfb68b66edbd3bba946d0b73987387f3dbb5a6b7c176ff5fd598e6e725be59289411e946ec51bfececa32ea1f70e2320; userIsLoggedIn=false; isWebpFormatSupportedAlgo0=true; scarab.visitor=^%^2248B3DFA8C98B2AD0^%^22; _gcl_aw=GCL.1710175240.EAIaIQobChMIioOtm9PshAMVfaiDBx3ECwv3EAAYASAAEgIWmPD_BwE; __rtbh.uid=^%^7B^%^22eventType^%^22^%^3A^%^22uid^%^22^%^2C^%^22id^%^22^%^3A^%^22unknown^%^22^%^7D; _hjSession_606837=eyJpZCI6IjMxYWNiZTEyLWQ2YjAtNDMxNi1hZmU2LWE0MDZlNzNkOTVmZiIsImMiOjE3MTAxNzUyNDAxNjAsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=; OptanonConsent=isGpcEnabled=0&datestamp=Mon+Mar+11+2024+17^%^3A40^%^3A40+GMT^%^2B0100+(Central+European+Standard+Time)&version=6.35.0&isIABGlobal=false&hosts=&consentId=4638ca5a-b94e-457d-9a0d-da3dc729763c&interactionCount=1&landingPath=NotLandingPage&groups=C0003^%^3A1^%^2CC0004^%^3A1^%^2CC0002^%^3A1^%^2CC0001^%^3A1; tfpsi=c869b902-02ac-48ea-a0df-23f7d78224ad; omSeen-wuuwcdtznonbrqlbvesb=1710175245785; om-wuuwcdtznonbrqlbvesb=1710175247410; _ga_XTT3C4HH22=GS1.1.1710175239.3.1.1710175250.49.0.0^",
+        "pragma": "no-cache",
+        "referer": "https://online.auchan.hu/shop/italok/asvanyviz-udito-ital-szorp/szensavas-uditok.c-5645",
+        "^sec-ch-ua": "^\^Chromium^^;v=^\^122^^, ^\^Not",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "^\^Windows^^",
+        "^sec-ch-ua-platform": "^\^Windows^^^",
         "sec-fetch-dest": "empty",
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 OPR/106.0.0.0"
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
     }
 
     response = requests.request("GET", url, data=payload, headers=headers, params=querystring)
@@ -33,10 +33,25 @@ for x in range(2,110):
 
     data = response.json()
     for p in data["results"]:
-        res.append(p)
+        categoryName = p.get("categoryName","")
+        brandName = p.get("brandName", "")
+        productName = p["defaultVariant"].get("name")
+        eancode = p["defaultVariant"].get("eanCode")  # Assuming eancode might not always be present
+        packageSize = p["defaultVariant"]["packageInfo"].get("packageSize")
+        netPrice = p["defaultVariant"]["price"].get("net")
+        grossPrice = p["defaultVariant"]["price"].get("gross")
+        netDiscountedPrice = p["defaultVariant"]["price"].get("netDiscounted")
+        isDiscounted = p["defaultVariant"]["price"].get("isDiscounted")
+
+        mydb = connection_mysql()
+
+        # Check if the eancode already exists in the database
+        if not eancode_exists(mydb, eancode):
+            commit_mysql(mydb, categoryName,  brandName, productName, eancode, packageSize, netPrice, grossPrice, netDiscountedPrice, isDiscounted)
         if data["results"] == None:
             print("this is shit")
 
 print(len(res))
 df = pd.json_normalize(res)
 df.to_csv('firstresult.csv', encoding='utf-8-sig', index=False)
+

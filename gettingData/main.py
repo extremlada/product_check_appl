@@ -4,12 +4,13 @@ from kivy.uix.image import Image
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
 from pyzbar.pyzbar import decode
+from kivy.uix.label import Label
 import cv2
 import numpy
 
 class BarcodeReader(App):
     def build(self):
-        rtsp_url = 'http://192.168.0.127:8080/video'
+        rtsp_url = 'http://192.168.2.124:8080/video'
         self.img1 = Image()
         layout = BoxLayout()
         layout.add_widget(self.img1)

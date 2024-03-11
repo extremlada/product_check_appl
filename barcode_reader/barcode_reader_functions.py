@@ -9,7 +9,7 @@ def barcode_readin():
 # where i connect to the ip webcam
     global barcode_found
     global myData
-    rtsp_url = 'http://192.168.0.127:8080/video'
+    rtsp_url = 'http://192.168.2.124:8080/video'
     window_name = 'OpenCV Barcode'
 
     bd = cv2.barcode.BarcodeDetector()
@@ -38,9 +38,6 @@ def barcode_readin():
             pts2 = barcode.rect
             cv2.putText(gray, myData, (pts2[0], pts2[1]), cv2.FONT_HERSHEY_SIMPLEX,
                         0.9, (255, 0, 255), 2)
-            cv2.imshow(window_name, frame)
-            cv2.waitKey(0)  # Wait for a key press
-            cv2.destroyAllWindows()
             barcode_found = True
             return [myData]
     # will show in a separate window
@@ -63,16 +60,14 @@ def lookup_barcodes(barcode_data):
             print("Brand:", data['brand'])
             print("Category:", data.get('category', 'Not available'))
             print("Nutritions: ", data['metanutrition'])
-            barcode = data['barcode']
-            name = data['title']
-            category = data['category']
-            metadata = "asd"
-            metanutritions = "asd"
-            brand = data['brand']
-            commit_mysql(barcode,  name, category, metadata, metanutritions, brand)
 
         else:
             print("Barcode not found.")
     else:
         print("No barcode data provided.")
 
+
+def barcode_from_mysql(barcode_data):
+    mydb = connection_mysql()
+    barcode = barcode_data[0]
+    read_mysql(mydb, barcode=barcode)
